@@ -63,9 +63,14 @@
 
 -(void)replaceSelfByViewController:(UIViewController *)viewController
 {
-    
     if (self.navigationController) {
-        
+        [self.navigationController pushViewControllerAfterPop:viewController];
+    }
+    else
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self.presentingViewController presentViewController:viewController animated:YES completion:nil];
+        }];
     }
 }
 
@@ -79,3 +84,13 @@
 }
 
 @end
+
+@interface UINavigationController (GobackAndShowAnotherViewController)
+-(void)pushViewControllerAfterPop:(UIViewController *)viewController
+{
+    [self popViewControllerAnimated:NO];
+    [self pushViewController:viewController animated:YES];
+}
+
+@end
+
